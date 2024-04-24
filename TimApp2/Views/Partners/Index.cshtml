@@ -1,0 +1,145 @@
+﻿@model IEnumerable<TimApp2.Models.Partner>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<form asp-controller="Partners" asp-action="Index" method="post">
+    <p>
+        Name: <input type="text" name="searchString" />
+        <input visibility: hidden type="text" name="sortBy" value="Name" />
+        <input type="submit" value="Search">
+    </p>
+</form>
+
+<form asp-controller="Partners" asp-action="Index" method="post">
+    <p>
+        Sort: <input type="text" name="sortBy" />
+        <input visibility: hidden type="text" name="searchString" value="" />
+        <input type="submit" value="filter">
+    </p>
+</form>
+<script type="text/javascript">
+    function myFunction1() {
+        //Declare variables
+        var input;
+        var filter;
+        var div;
+        var partner;
+        var temp;
+
+        input = document.getElementById('searchInput').value.toUpperCase();
+        console.log("input:"+input);
+
+        div = document.getElementById('partners');
+        partners = div.getElementsByClassName('col');
+        console.log("partners:" + partners.length);
+
+
+
+        //use loop to hide all unmatch divs
+        for (let i = 0; i < partners.length; i++) {
+             temp  = partners[i];
+            name = temp.getAttribute('value');
+            console.log("temp:" + temp);
+            console.log("name:" + name);
+            if (name.toUpperCase().indexOf(input) > -1) {
+                console.log(name.toUpperCase().indexOf(input));
+                console.log("match!");
+            }
+            else {
+                console.log("unmatch!");
+                temp.style.visibility = "hidden";
+            }
+        }
+    }
+</script>
+<form>
+    <p>
+        Search(JS): <input type="text" id="searchInput" onchange="myFunction1()" placeholder="the text shows in the box"
+    </p>
+</form>
+<div class="album py-5 bg-body-tertiary">
+    <div class="container">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3" id="partners">
+            @foreach (var item in Model)
+            {
+                <div class="col" id="partner" value="@Html.DisplayFor(modelItem => item.Name)">
+                    <div class="card shadow-sm">
+                        <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
+                        <div class="card-body">
+                            <h5 class="card-text">@Html.DisplayFor(modelItem => item.Name)</h5>
+                            <p class="card-text">@Html.DisplayFor(modelItem => item.Location)</p>
+                            <p class="card-text">@Html.DisplayFor(modelItem => item.Contact)</p>
+                            <p class="card-text">@Html.DisplayFor(modelItem => item.Resource)</p>
+                            <p class="card-text">@Html.DisplayFor(modelItem => item.Description)</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="btn-group">
+                                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                                </div>
+                                <small class="text-body-secondary">9 mins</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }  
+        </div>
+    </div>
+</div>
+@* <table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Location)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Contact)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Resource)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Location)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Contact)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Resource)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table> *@
+
+
